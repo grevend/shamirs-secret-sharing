@@ -23,7 +23,7 @@ function shareSecret(secret: Int8Array, shares: number, threshold: number): Int8
     const _shares: Int8Array[] = [];
 
     for(let i = 0; i < shares; i++) {
-        _shares.push(buffer.subarray((secret.length + 1) * i, ((secret.length + 1) * i) + 5));
+        _shares.push(buffer.subarray((secret.length + 1) * i, ((secret.length + 1) * i) + secret.length + 1));
     }
 
     return _shares;
