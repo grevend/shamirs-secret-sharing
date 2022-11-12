@@ -1,3 +1,9 @@
+/*
+ * Copyright (c) 2022 - for information on the respective copyright owner
+ * see the NOTICE file and/or the repository https://github.com/grevend/shamirs-secret-sharing.
+ *
+ * SPDX-License-Identifier: Apache-2.0
+ */
 const libSuffix = {"windows": "dll", "darwin": "dylib"}[Deno.build.os] || "so"
 const libName = `./native/libsecretsharing.${libSuffix}`;
 const dylib = Deno.dlopen(
