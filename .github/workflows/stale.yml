@@ -1,0 +1,20 @@
+name: Stale Marker
+
+on:
+  schedule:
+  - cron: '0 0 * * *'
+
+jobs:
+  check:
+    runs-on: ubuntu-latest
+    permissions:
+      issues: write
+      pull-requests: write
+    steps:
+    - uses: actions/stale@v6
+      with:
+        repo-token: ${{ secrets.GITHUB_TOKEN }}
+        stale-issue-message: 'This issue was marked as stale.'
+        stale-pr-message: 'This pull request was marked as stale.'
+        stale-issue-label: 'stale'
+        stale-pr-label: 'stale'

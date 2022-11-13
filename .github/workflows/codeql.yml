@@ -1,0 +1,42 @@
+name: CodeQL
+
+on:
+  push:
+    branches: [ 'main' ]
+  pull_request:
+    branches: [ 'main' ]
+  schedule:
+    - cron: '0 0 * * 5'
+
+jobs:
+  analyze:
+    name: Analyze
+    runs-on: ubuntu-latest
+    permissions:
+      actions: read
+      contents: read
+      security-events: write
+    strategy:
+      fail-fast: false
+      matrix:
+        language: [ 'cpp', 'javascript' ]
+    steps:
+    - name: Checkout repository
+      uses: actions/checkout@v3
+    - name: Setup GCC 12
+      run: |
+        sudo apt update
+        sudo apt install gcc-12
+        sudo update-alternatives --install /usr/bin/gcc gcc /usr/bin/gcc-12 110
+    - name: Initialize CodeQL
+      uses: github/codeql-action/init@v2
+      with:
+        languages: ${{ matrix.language }}
+    - name: Manual build
+      working-directory: ./native
+      run: |
+        gcc -c -fPIC -o bridge.o bridge.c
+        gcc -c -fPIC -o secret_sharing.o secret_sharing.c
+        gcc -shared -W -o libsecretsharing.so bridge.o secret_sharing.o
+    - name: Perform CodeQL analysis
+      uses: github/codeql-action/analyze@v2
