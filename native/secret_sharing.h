@@ -9,6 +9,7 @@
 #define SECRET_SHARING_H
 
 #include <stdlib.h>
+#include <stdint.h>
 
 #define SRAND (srand((unsigned int)time(NULL)))
 
