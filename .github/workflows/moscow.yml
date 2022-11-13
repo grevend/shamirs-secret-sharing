@@ -11,6 +11,6 @@ permissions:
 
 jobs:
   check:
-    runs-on: ubuntu-latest
+    runs-on: ubuntu-22.04
     steps:
       - uses: grevend/moscow-prioritization@v2.0.0
