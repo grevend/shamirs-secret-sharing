@@ -23,15 +23,16 @@ jobs:
     steps:
     - name: Checkout repository
       uses: actions/checkout@v3
-    - name: Setup GCC 12
-      run: |
-        sudo apt update
-        sudo apt install gcc-12
-        sudo update-alternatives --install /usr/bin/gcc gcc /usr/bin/gcc-12 110
     - name: Initialize CodeQL
       uses: github/codeql-action/init@v2
       with:
         languages: ${{ matrix.language }}
+    - name: Setup GCC 12
+      if: matrix.language == 'cpp'
+      run: |
+        sudo apt update
+        sudo apt install gcc-12
+        sudo update-alternatives --install /usr/bin/gcc gcc /usr/bin/gcc-12 110
     - name: Manual build
       if: matrix.language == 'cpp'
       working-directory: ./native
