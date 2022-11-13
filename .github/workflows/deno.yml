@@ -29,11 +29,15 @@ jobs:
           gcc -shared -W -o libsecretsharing.so bridge.o secret_sharing.o
 
       - name: Verify formatting
-        run: cd ./deno && deno fmt --check .
+        working-directory: ./deno
+        run: deno fmt --check .
 
       - name: Run linter
-        run: cd ./deno && deno lint .
+        working-directory: ./deno
+        run: deno lint .
 
       - name: Run tests
         working-directory: ./deno
-        run: deno test -A --unstable
+        run: deno test -A --unstable --coverage=cov_profile
+
+
