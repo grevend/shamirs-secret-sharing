@@ -18,6 +18,9 @@ jobs:
         with:
           deno-version: v1.x
       
+      - name: Whats cc
+        run: cc --version
+      
       - name: Compile secret sharing lib
         working-directory: ./native
         run: |
