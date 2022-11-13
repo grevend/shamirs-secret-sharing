@@ -30,8 +30,8 @@ jobs:
       - name: Compile secret sharing lib
         working-directory: ./native
         run: |
-          gcc -c -o bridge.o bridge.c
-          gcc -c -o secret_sharing.o secret_sharing.c
+          gcc -c -fPIC -o bridge.o bridge.c
+          gcc -c -fPIC -o secret_sharing.o secret_sharing.c
           gcc -shared -W -o libsecretsharing.so bridge.o secret_sharing.o
 
       - name: Verify formatting
