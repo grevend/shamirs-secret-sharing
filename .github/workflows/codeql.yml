@@ -33,6 +33,7 @@ jobs:
       with:
         languages: ${{ matrix.language }}
     - name: Manual build
+      if: matrix.language == 'cpp'
       working-directory: ./native
       run: |
         gcc -c -fPIC -o bridge.o bridge.c
