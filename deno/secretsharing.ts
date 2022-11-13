@@ -7,7 +7,7 @@
 
 const libSuffix =
   { "windows": "dll", "darwin": "dylib", "linux": "so" }[Deno.build.os] || "so";
-const libName = `./native/libsecretsharing.${libSuffix}`;
+const libName = `../native/libsecretsharing.${libSuffix}`;
 const dylib = Deno.dlopen(
   libName,
   {
