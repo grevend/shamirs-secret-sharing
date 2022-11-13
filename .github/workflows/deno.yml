@@ -40,4 +40,6 @@ jobs:
         working-directory: ./deno
         run: deno test -A --unstable --coverage=cov_profile
 
-
+      - name: Print coverage
+        working-directory: ./deno
+        run: deno coverage cov_profile
