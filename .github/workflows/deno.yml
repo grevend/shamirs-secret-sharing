@@ -17,6 +17,9 @@ jobs:
         uses: denoland/setup-deno@v1
         with:
           deno-version: v1.x
+      
+      - name: Compile secret sharing lib
+        run: cc -c -o bridge.o bridge.c; cc -c -o secret_sharing.o.o secret_sharing.o.c; cc -shared -W -o libsecretsharing.so bridge.o secret_sharing.o
 
       - name: Verify formatting
         run: cd ./deno && deno fmt --check .
