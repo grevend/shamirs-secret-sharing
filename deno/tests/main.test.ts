@@ -43,8 +43,8 @@ Deno.test("Test shareSecret error management", async (t) => {
     assertThrows(() => shareSecret(input, 0, 1));
   });
   await t.step("Threshold greater than shares throws", () => {
-    assertThrows(() => shareSecret(input, NUM_SHARES, NUM_SHARES+1));
-    assertThrows(() => shareSecret(input, NUM_SHARES, NUM_SHARES+2));
+    assertThrows(() => shareSecret(input, NUM_SHARES, NUM_SHARES + 1));
+    assertThrows(() => shareSecret(input, NUM_SHARES, NUM_SHARES + 2));
   });
 });
 
