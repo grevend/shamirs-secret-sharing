@@ -15,7 +15,7 @@ const dylib = Deno.dlopen(
     } as const,
 );
 
-function shareSecret(secret: Int8Array, shares: number, threshold: number): Int8Array[] {
+export function shareSecret(secret: Int8Array, shares: number, threshold: number): Int8Array[] {
     if(secret.length < 1) throw 'check secret is not empty';
     if(shares < 2) throw 'at least two shares';
     if(threshold > shares) throw 'check shares compared to threshold';
@@ -30,7 +30,7 @@ function shareSecret(secret: Int8Array, shares: number, threshold: number): Int8
     return _shares;
 }
 
-function reconstructSecret(shares: Int8Array[]): Int8Array {
+export function reconstructSecret(shares: Int8Array[]): Int8Array {
     if(shares.length < 2) throw 'check that the shares are not empty';
     if(!shares.every(arr => arr.length === shares[0].length)) throw 'check that all arrays have an equal length';
     const merged = shares.reduce((prev, curr) => Int8Array.from([...prev, ...curr]), Int8Array.of())
