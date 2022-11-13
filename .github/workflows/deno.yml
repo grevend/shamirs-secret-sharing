@@ -24,9 +24,6 @@ jobs:
         with:
           deno-version: v1.x
       
-      - name: Whats gcc
-        run: gcc --version
-      
       - name: Compile secret sharing lib
         working-directory: ./native
         run: |
