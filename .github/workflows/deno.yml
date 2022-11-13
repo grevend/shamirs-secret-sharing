@@ -22,7 +22,7 @@ jobs:
         working-directory: ./native
         run: |
           cc -c -o bridge.o bridge.c
-          cc -c -o secret_sharing.o.o secret_sharing.o.c
+          cc -c -o secret_sharing.o secret_sharing.c
           cc -shared -W -o libsecretsharing.so bridge.o secret_sharing.o
 
       - name: Verify formatting
