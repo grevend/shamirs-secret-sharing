@@ -39,10 +39,12 @@ Deno.test("Test shareSecret error management", async (t) => {
     assertThrows(() => reconstructSecret([new Int8Array()]));
   });
   await t.step("Less than 2 shares throws", () => {
-    assertThrows(() => shareSecret(new Int8Array(), 1, 1));
+    assertThrows(() => shareSecret(input, 1, 1));
+    assertThrows(() => shareSecret(input, 0, 1));
   });
   await t.step("Threshold greater than shares throws", () => {
-    assertThrows(() => shareSecret(new Int8Array(), 1, 2));
+    assertThrows(() => shareSecret(input, NUM_SHARES, NUM_SHARES+1));
+    assertThrows(() => shareSecret(input, NUM_SHARES, NUM_SHARES+2));
   });
 });
 
