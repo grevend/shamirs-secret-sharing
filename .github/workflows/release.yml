@@ -1,0 +1,74 @@
+name: Release
+
+on:
+  push:
+    tags:
+      - "v*.*.*"
+  pull_request:
+  workflow_dispatch:
+
+jobs:
+  compile:
+    strategy:
+      fail-fast: false
+      matrix:
+        gcc: [ 12 ]
+        os: [ ubuntu, windows, macos ]
+    runs-on: ${{ matrix.os }}-latest
+    defaults:
+      run:
+        working-directory: native
+    steps:
+      - name: Setup repo
+        uses: actions/checkout@v3
+
+      - name: Setup GCC ${{ matrix.gcc }}
+        run: |
+          sudo apt update
+          sudo apt install gcc-${{ matrix.gcc }}
+          sudo update-alternatives --install /usr/bin/gcc gcc /usr/bin/gcc-${{ matrix.gcc }} 110
+      
+      - name: Compile to libsecretsharing
+        if: contains(matrix.os, 'ubuntu') || contains(matrix.os, 'macos')
+        run: |
+          gcc -c -fPIC -o bridge.o bridge.c
+          gcc -c -fPIC -o secret_sharing.o secret_sharing.c
+          gcc -shared -W -o libsecretsharing.so bridge.o secret_sharing.o
+
+      - name: Rename dynamic lib for macOS
+        if: contains(matrix.os, 'macos')
+        run: mv libsecretsharing.so libsecretsharing.dylib
+
+      - name: Compile to libsecretsharing.dll
+        if: contains(matrix.os, 'windows')
+        run: cl /LD bridge.c secret_sharing.c /link /EXPORT:secretsharing
+
+      - name: Upload build artifact
+        uses: actions/upload-artifact@v3
+        with:
+          name: release-${{ github.sha }}
+          path: |
+            ./native/libsecretsharing.so
+            ./native/libsecretsharing.dll
+            ./native/libsecretsharing.dylib
+          if-no-files-found: error
+          retention-days: 1
+  
+  publish:
+    needs: [ compile ]
+    runs-on: ubuntu-latest
+    if: github.event_name == 'push' && startsWith(github.ref, 'refs/tags/')
+    environment: release
+    steps:
+      - name: Download build artifacts
+        uses: actions/download-artifact@v3
+        with:
+          name: release-${{ github.sha }}
+
+      - name: Publish release
+        uses: softprops/action-gh-release@v1
+        with:
+          files: |
+            libsecretsharing.so
+            libsecretsharing.dll
+            libsecretsharing.dylib
