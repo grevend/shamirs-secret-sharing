@@ -22,7 +22,7 @@ jobs:
             version: '22.04'
           - os: macos
             version: '22.04'
-    runs-on: ${{ matrix.os }}-latest
+    runs-on: ${{ matrix.os }}-${{ matrix.version }}
     defaults:
       run:
         working-directory: native
@@ -36,6 +36,10 @@ jobs:
           sudo apt update
           sudo apt install gcc-${{ matrix.gcc }}
           sudo update-alternatives --install /usr/bin/gcc gcc /usr/bin/gcc-${{ matrix.gcc }} 110
+
+      - name: Setup MSVC compiler
+        if: contains(matrix.os, 'windows')
+        uses: ilammy/msvc-dev-cmd@v1
       
       - name: Compile to libsecretsharing
         if: contains(matrix.os, 'ubuntu') || contains(matrix.os, 'macos')
