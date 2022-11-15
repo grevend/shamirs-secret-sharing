@@ -7,7 +7,7 @@ on:
     branches: [ main ]
 
 jobs:
-  compile:
+  verify:
     runs-on: ubuntu-22.04
     steps:
       - name: Setup repo
