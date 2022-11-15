@@ -5,9 +5,17 @@
  * SPDX-License-Identifier: Apache-2.0
  */
 
+const libDir = await Deno.makeTempDir();
 const libSuffix =
   { "windows": "dll", "darwin": "dylib", "linux": "so" }[Deno.build.os] || "so";
-const libName = `../native/libsecretsharing.${libSuffix}`;
+const libName = `${libDir}/libsecretsharing.${libSuffix}`;
+const response = await fetch(
+  `https://github.com/grevend/shamirs-secret-sharing/releases/latest/download/libsecretsharing.${libSuffix}`,
+);
+const tempFile = await Deno.open(libName, { create: true, write: true });
+await response.body?.pipeTo(tempFile.writable);
+//Deno.close(tempFile.rid);
+
 const dylib = Deno.dlopen(
   libName,
   {
