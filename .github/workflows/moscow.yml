@@ -13,4 +13,4 @@ jobs:
   check:
     runs-on: ubuntu-22.04
     steps:
-      - uses: grevend/moscow-prioritization@v2.0.0
+      - uses: grevend/moscow-prioritization@v2.0.1
