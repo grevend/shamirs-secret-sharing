@@ -32,7 +32,7 @@ jobs:
         working-directory: native
     steps:
       - name: Setup repo
-        uses: actions/checkout@v3
+        uses: actions/checkout@v4
 
       - name: Setup GCC ${{ matrix.gcc }}
         if: contains(matrix.os, 'ubuntu')
