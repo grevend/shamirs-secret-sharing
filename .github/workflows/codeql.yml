@@ -24,7 +24,7 @@ jobs:
     - name: Checkout repository
       uses: actions/checkout@v4
     - name: Initialize CodeQL
-      uses: github/codeql-action/init@v2
+      uses: github/codeql-action/init@v3
       with:
         languages: ${{ matrix.language }}
     - name: Setup GCC 12
@@ -41,4 +41,4 @@ jobs:
         gcc -c -fPIC -o secret_sharing.o secret_sharing.c
         gcc -shared -W -o libsecretsharing.so bridge.o secret_sharing.o
     - name: Perform CodeQL analysis
-      uses: github/codeql-action/analyze@v2
+      uses: github/codeql-action/analyze@v3
